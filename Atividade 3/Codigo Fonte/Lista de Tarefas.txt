@@ -1,0 +1,135 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Enum para representar o status da tarefa
+enum Status {
+    Pendente, EmProgresso, Concluída
+}
+
+// Classe Tarefa
+class Tarefa {
+    private int idTarefa;
+    private String titulo;
+    private String descricao;
+    private String dataInicio;
+    private String dataConclusao;
+    private int prioridade;
+    private Status status;
+    private List<Subtarefa> subtarefas;
+
+    public Tarefa(int idTarefa, String titulo, String descricao, String dataInicio, String dataConclusao,
+                  int prioridade, Status status) {
+        this.idTarefa = idTarefa;
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.dataInicio = dataInicio;
+        this.dataConclusao = dataConclusao;
+        this.prioridade = prioridade;
+        this.status = status;
+        this.subtarefas = new ArrayList<>();
+    }
+
+    public void definirPrioridade(int prioridade) {
+        this.prioridade = prioridade;
+    }
+
+    public void atualizarStatus(Status novoStatus) {
+        this.status = novoStatus;
+    }
+
+    public void adicionarSubtarefa(Subtarefa subtarefa) {
+        subtarefas.add(subtarefa);
+    }
+
+    public List<Subtarefa> listarSubtarefas() {
+        return subtarefas;
+    }
+}
+
+// Classe Subtarefa
+class Subtarefa {
+    private int idSubtarefa;
+    private String descricao;
+    private boolean concluida;
+
+    public Subtarefa(int idSubtarefa, String descricao) {
+        this.idSubtarefa = idSubtarefa;
+        this.descricao = descricao;
+        this.concluida = false;
+    }
+
+    public void marcarConcluida() {
+        concluida = true;
+    }
+
+    public void desmarcarConcluida() {
+        concluida = false;
+    }
+}
+
+// Classe ListaDeTarefas
+class ListaDeTarefas {
+    private int idLista;
+    private String nome;
+    private List<Tarefa> tarefas;
+
+    public ListaDeTarefas(int idLista, String nome) {
+        this.idLista = idLista;
+        this.nome = nome;
+        this.tarefas = new ArrayList<>();
+    }
+
+    public void adicionarTarefa(Tarefa tarefa) {
+        tarefas.add(tarefa);
+    }
+
+    public void removerTarefa(Tarefa tarefa) {
+        tarefas.remove(tarefa);
+    }
+
+    public List<Tarefa> listarTarefas() {
+        return tarefas;
+    }
+
+    public List<Tarefa> buscarTarefaPorStatus(Status status) {
+        List<Tarefa> tarefasPorStatus = new ArrayList<>();
+        for (Tarefa tarefa : tarefas) {
+            if (tarefa.getStatus() == status) {
+                tarefasPorStatus.add(tarefa);
+            }
+        }
+        return tarefasPorStatus;
+    }
+}
+
+// Classe Usuário
+class Usuario {
+    private int idUsuario;
+    private String nome;
+    private String email;
+    private List<ListaDeTarefas> listasDeTarefas;
+
+    public Usuario(int idUsuario, String nome, String email) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.email = email;
+        this.listasDeTarefas = new ArrayList<>();
+    }
+
+    public ListaDeTarefas criarListaDeTarefas(String nomeLista) {
+        ListaDeTarefas lista = new ListaDeTarefas(listasDeTarefas.size() + 1, nomeLista);
+        listasDeTarefas.add(lista);
+        return lista;
+    }
+
+    public void adicionarListaDeTarefas(ListaDeTarefas lista) {
+        listasDeTarefas.add(lista);
+    }
+
+    public void removerListaDeTarefas(ListaDeTarefas lista) {
+        listasDeTarefas.remove(lista);
+    }
+}
+
+    
+
